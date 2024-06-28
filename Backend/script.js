@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 Mo
-    const VALID_IMAGE_TYPES = ['image/jpeg', 'image/png'];
+    // Définition des travaux (works) pour la galerie.
     const works = [
       {
         id: 1,
@@ -91,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         category: { id: 3, name: 'Hotels & restaurants' }
       }
     ];
-   
+    // Sélection des éléments DOM nécessaires pour la manipulation.
     const gallerySection = document.getElementById('gallery');
     const buttonsContainer = document.getElementById('buttons-container');
     const imageList = document.getElementById('image-list');
@@ -99,6 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const manageImagesPage = document.getElementById('manage-images-page');
     const addImagePage = document.getElementById('add-image-page');
 
+    // Définition des constantes pour la gestion des fichiers.
+    const MAX_FILE_SIZE = 4 * 1024 * 1024; 
+    const VALID_IMAGE_TYPES = ['image/jpeg', 'image/png'];
+
+    // Fonction pour créer une figure (image + légende) pour un travail donné.
     function createFigure(work) {
         const figure = document.createElement('figure');
         const image = document.createElement('img');
@@ -111,8 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return figure;
     }
 
+    // Fonction pour afficher une liste de travaux dans la galerie.
     function displayWorks(worksToDisplay) {
-        gallerySection.innerHTML = '';
+        gallerySection.innerHTML = ''; // Efface le contenu précédent
         const fragment = document.createDocumentFragment();
         worksToDisplay.forEach(work => {
             fragment.appendChild(createFigure(work));
@@ -120,15 +125,18 @@ document.addEventListener('DOMContentLoaded', () => {
         gallerySection.appendChild(fragment);
     }
 
+    // Fonction pour afficher les travaux par catégorie.
     function displayWorksByCategory(categoryName) {
         const worksByCategory = works.filter(work => work.category.name === categoryName);
         displayWorks(worksByCategory);
     }
 
+    // Fonction pour afficher tous les travaux.
     function displayAllWorks() {
         displayWorks(works);
     }
 
+    // Fonction pour créer un bouton de catégorie.
     function createCategoryButton(category) {
         const button = document.createElement('button');
         button.textContent = category;
@@ -142,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return button;
     }
 
+    // Fonction pour peupler le sélecteur de catégorie dans le formulaire d'ajout d'image.
     function populateCategorySelect() {
         const categories = [...new Set(works.map(work => work.category.name))];
         categories.forEach(category => {
@@ -152,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Fonction pour créer le bouton de mode édition (si le mode édition est activé).
     function createEditModeButton() {
         const editModeButton = document.createElement('img');
         editModeButton.src = '../FrontEnd/assets/icons/edit_button.svg'; 
@@ -163,27 +173,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return editModeButton;
     }  
 
+    // Vérifie si le mode édition est activé dans le stockage local.
     const editionMode = localStorage.getItem("editionMode");
-
     if (editionMode === "true") {
         const editModeButtonContainer = document.querySelector('#edit-mode-button-container');
         const editModeButton = createEditModeButton();
         editModeButtonContainer.appendChild(editModeButton);
     }
 
-    function createCategoryButton(category) {
-        const button = document.createElement('button');
-        button.textContent = category;
-        button.addEventListener('click', () => {
-            if (category === 'Tous') {
-                displayAllWorks();
-            } else {
-                displayWorksByCategory(category);
-            }
-        });
-        return button;
-    }
-
+    // Fonction pour créer un conteneur d'image dans la modal.
     function createImageContainer(work) {
         const container = document.createElement('div');
         container.classList.add('image-container');
@@ -191,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = work.imageUrl;
         img.alt = work.title;
 
+        // Ajoute une icône de poubelle pour supprimer l'image.
         const trashIcon = document.createElement('img');
         trashIcon.src = '../FrontEnd/assets/icons/trash.svg'; 
         trashIcon.alt = 'Supprimer';
@@ -213,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return container;
     }
 
+    // Fonction pour afficher les images dans la modal.
     function displayModalImages() {
         imageList.innerHTML = ''; 
         const fragment = document.createDocumentFragment();
@@ -222,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imageList.appendChild(fragment);
     }
 
+    // Fonction pour initialiser la modal.
     function initializeModal() {
         const modal = document.getElementById('modal');
         const closeButton = document.querySelector('.close-button');
@@ -229,26 +230,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const backButton = document.getElementById('back-button');
         const saveImageButton = document.getElementById('save-image-button');
         
+        // Ferme la modal en cliquant sur le bouton de fermeture.
         closeButton.addEventListener('click', () => {
             modal.style.display = 'none';
         });
 
+        // Ferme la modal en cliquant en dehors de celle-ci.
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
 
+        // Affiche la page d'ajout d'image.
         addImagePageButton.addEventListener('click', () => {
             manageImagesPage.style.display = 'none';
             addImagePage.style.display = 'block';
         });
 
+        // Retourne à la page de gestion des images.
         backButton.addEventListener('click', () => {
             addImagePage.style.display = 'none';
             manageImagesPage.style.display = 'block';
         });
 
+        // Sauvegarde l'image ajoutée.
         saveImageButton.addEventListener('click', () => {
             const imageUpload = document.getElementById('image-upload');
             const imageTitle = document.getElementById('image-title').value;
@@ -256,6 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const file = imageUpload.files[0];
 
+            // Vérifications des contraintes de fichier.
             if (!file) {
                 alert('Veuillez sélectionner une image.');
                 return;
@@ -271,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Ajoute le nouveau travail si tous les champs sont remplis et l'image est valide.
             if (imageTitle && imageCategory) {
                 const imageUrl = URL.createObjectURL(file);
 
@@ -298,6 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });    
     }
 
+    // Crée les boutons de catégories et les ajoute au conteneur.
     const categories = ['Tous', ...new Set(works.map(work => work.category.name))];
     categories.forEach(category => {
         const button = createCategoryButton(category);
@@ -306,7 +315,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const tousButton = document.querySelector('button');
     tousButton.click();
 
+    // Popule le sélecteur de catégories pour l'ajout d'image.
     populateCategorySelect();
+    // Initialise la modal.
     initializeModal();
+    // Affiche tous les travaux par défaut.
     displayAllWorks();
 });

@@ -2,9 +2,11 @@ const users = [
     { email: "user1@example.com", password: "1", token: "123456" },
 ];
 
-function validerConnexion() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+function validerConnexion(event) {
+    event.preventDefault(); // Empêche le rechargement de la page
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
     if (email === "" || password === "") {
         alert("Veuillez remplir tous les champs.");
@@ -25,7 +27,7 @@ function validerConnexion() {
 }
 
 function updateLoginLink() {
-    const loginLink = document.getElementById('login-link');
+    const loginLink = document.querySelector('.login-link');
     const editionMode = localStorage.getItem("editionMode");
 
     if (editionMode === "true") {
@@ -44,4 +46,5 @@ function updateLoginLink() {
 
 document.addEventListener('DOMContentLoaded', () => {
     updateLoginLink();
+    document.getElementById('login-form').addEventListener('submit', validerConnexion);
 });
