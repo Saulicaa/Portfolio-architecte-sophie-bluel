@@ -182,6 +182,11 @@ button:focus {
 	color: white;
 }
 
+.login-flex {
+	display: flex;
+	justify-content: center;
+}
+
 button.login-button {
     /* Ajoutez ici vos styles spécifiques pour le bouton de connexion */
     width: 179px;
@@ -189,6 +194,7 @@ button.login-button {
 	color: white;
 	margin: 50px 0 50px 0;
 }
+
 
 #contact {
 	width: 50%;
@@ -274,6 +280,7 @@ footer nav ul {
 .edit-mode-button {
     cursor: pointer;
 	margin-left: 30px;
+	max-width: 15px;
 }
 
 #auth-link a {
@@ -287,6 +294,40 @@ footer nav ul {
     color: #B1663C;
     text-decoration: underline;
 }
+
+#edit-mode-button-container{
+	display: flex;
+	align-items: center;
+}
+
+.modifier-text-edition {
+    margin-left: 10px; /* Espacement à gauche du bouton */
+    font-size: 14px; 
+    color: #333; /* Couleur du texte */
+}
+
+.black-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 59px;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.black-bar img {
+    margin-right: 10px;
+}
+
+.edit-mode-header {
+    margin-top: 100px; 
+}
+
 
 /* Style pour la fenêtre modale */
 .modal {
@@ -346,6 +387,12 @@ footer nav ul {
 	flex-wrap: wrap;
 	padding: 10px 0 15px 0;
 }
+
+.button-image {
+	max-width: 200px; 
+	max-height: 200px; 
+	object-fit: cover; 
+  }
 
 input[type="file"] {
     display: none;

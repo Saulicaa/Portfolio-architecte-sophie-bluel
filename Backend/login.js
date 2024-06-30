@@ -1,7 +1,3 @@
-const users = [
-    { email: "user1@example.com", password: "1", token: "123456" },
-];
-
 function validerConnexion() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -11,21 +7,38 @@ function validerConnexion() {
         return false;
     }
 
-    const user = users.find(user => user.email === email && user.password === password);
-
-    if (user) {
-        localStorage.setItem("token", user.token); // Stockage du token dans localStorage
+    fetch('http://localhost:5678/api/users/login', { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email, password: password })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Email ou mot de passe incorrect.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        localStorage.setItem("token", data.token); // Stockage du token dans localStorage
         localStorage.setItem("editionMode", "true"); // Activation du mode d'édition
         window.location.href = "index.html"; // Redirection vers la page principale
-        return true; // Connexion réussie, sortie de la fonction
-    }
+    })
+    .catch(error => {
+        alert(error.message);
+    });
 
-    alert("Email ou mot de passe incorrect.");
-    return false; // Connexion échouée
+    return false; // Empêche la soumission du formulaire par défaut
 }
 
 function updateLoginLink() {
     const loginLink = document.getElementById('login-link');
+    if (!loginLink) {
+        console.error('Element with ID "login-link" not found.');
+        return;
+    }
+
     const editionMode = localStorage.getItem("editionMode");
 
     if (editionMode === "true") {
@@ -39,9 +52,30 @@ function updateLoginLink() {
             loginLink.href = 'page_connexion.html'; // Restaurez le lien de connexion
             window.location.href = "page_connexion.html"; // Redirection vers la page de login
         });
+    } else {
+        loginLink.textContent = 'Login';
+        loginLink.href = 'page_connexion.html';
+        loginLink.removeEventListener('click', handleLogoutClick);
     }
 }
 
+function handleLogoutClick(event) {
+    event.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.setItem('editionMode', 'false');
+    const loginLink = document.getElementById('login-link');
+    loginLink.textContent = 'Login';
+    loginLink.href = 'page_connexion.html';
+    window.location.href = "page_connexion.html";
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) {
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            validerConnexion();
+        });
+    }
     updateLoginLink();
 });

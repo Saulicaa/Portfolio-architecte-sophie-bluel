@@ -11,16 +11,28 @@
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
+	<div id="edit-mode-indicator" style="display: none;">
+		<div class="black-bar">
+			<img src="../FrontEnd/assets/icons/edit_button_white.svg" alt="Edit Mode Button">
+			<span>Mode édition</span>
+		</div>
+	</div>
 	<header>
+		<div id="edit-mode-indicator" style="display: none;">
+			<div class="black-bar">
+				<img src="../FrontEnd/assets/icons/edit_button_white.svg" alt="Edit Mode Button">
+				<span>Mode édition</span>
+			</div>
+		</div>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
-				<li>projets</li>
-				<li>contact</li>
+				<li><a href="#portfolio">Projets</a></li>
+				<li><a href="#contact">Contact</a></li>
 				<li><a href="page_connexion.html" id="login-link">login</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
-		</nav>
+		</nav>	
 	</header>
 	<main>
 		<div id="modal" class="modal">
@@ -34,22 +46,22 @@
 				</div>
 				<div id="add-image-page" style="display: none;">
 					<section id="modal-add">
-						<br></br><h2>Ajout photo</h2>
-						<div class="button-container">
-							<img src="./assets/icons/gallery.svg" alt="Image above button" class="button-image">
-							<label for="image-upload" class="custom-file-upload">+ Ajouter photo</label>
-							<input type="file" id="image-upload" accept="image/*">
-							<p class="button-description">jpg, png : 4mo max</p>
-						</div>
-						<form action="#" method="post">
-							<label for="title">Titre</label>
-							<input type="text" id="image-title">
-							<label for="category">Catégorie</label>
-							<select id="image-category"></select>
-						</form>
-						<button id="save-image-button">Valider</button>
+					  <br></br><h2>Ajout photo</h2>
+					  <div class="button-container">
+						<img src="./assets/icons/gallery.svg" alt="Image above button" class="button-image" id="image-preview">
+						<label for="image-upload" class="custom-file-upload">+ Ajouter photo</label>
+						<input type="file" id="image-upload" accept="image/*">
+						<p class="button-description">jpg, png : 4mo max</p>
+					  </div>
+					  <form action="#" method="post">
+						<label for="title">Titre</label>
+						<input type="text" id="image-title">
+						<label for="category">Catégorie</label>
+						<select id="image-category"></select>
+					  </form>
+					  <button id="save-image-button">Valider</button>
 					</section>
-				</div>
+				  </div>
 			</div>
 		</div>
 		<section id="introduction">
