@@ -78,4 +78,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     updateLoginLink();
+    document.getElementById('login-form').addEventListener('submit', validerConnexion);
 });
